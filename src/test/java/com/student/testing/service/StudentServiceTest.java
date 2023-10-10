@@ -66,10 +66,10 @@ public class StudentServiceTest {
 
 
         //when
-        Student studentById = studentService.getStudentById(1);
+        Optional<Student> studentById = studentService.getStudentById(1);
 
         //then
-        Assertions.assertThat(studentById).isNotNull();
+        Assertions.assertThat(studentById).isNotEmpty();
 
     }
 
@@ -78,10 +78,12 @@ public class StudentServiceTest {
         //given
         BDDMockito.given(studentRepo.findById(1)).willReturn(Optional.empty());
 
-        //when
-        org.junit.jupiter.api.Assertions.assertThrows(ResourceNotFound.class,()->{
-            studentService.getStudentById(1);
-        });
+//        //when
+//        org.junit.jupiter.api.Assertions.assertThrows(ResourceNotFound.class,()->{
+//            studentService.getStudentById(1);
+//        });
+
+        studentService.getStudentById(1);
 
         //then
        Mockito.verify(studentRepo,Mockito.times(1)).findById(1);

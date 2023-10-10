@@ -1,6 +1,7 @@
 package com.student.testing.controller;
 
 import com.student.testing.entity.Student;
+import com.student.testing.exception.ResourceNotFound;
 import com.student.testing.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,8 @@ public class StudentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Student> getStudentById(@PathVariable int id){
-        return new ResponseEntity<>(this.studentService.getStudentById(id),HttpStatus.OK);
+        Student student = this.studentService.getStudentById(id).orElseThrow(() -> new ResourceNotFound("User Not Found With this id " + id));
+        return new ResponseEntity<>(student,HttpStatus.OK);
     }
 
 

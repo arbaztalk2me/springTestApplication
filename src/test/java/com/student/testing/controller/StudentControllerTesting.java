@@ -78,7 +78,7 @@ public class StudentControllerTesting {
         int studentId=1;
         Student student=Student.builder().name("arbaz").email("arbaz@gmail.com").build();
         BDDMockito.given(studentService.getStudentById(studentId))
-                .willReturn(student);
+                .willReturn(Optional.of(student));
 
         //when
         ResultActions response=mockMvc.perform(MockMvcRequestBuilders.get("/api/students/{id}",studentId));
@@ -96,7 +96,7 @@ public class StudentControllerTesting {
         //given
         int studentId=1;
         BDDMockito.given(studentService.getStudentById(studentId))
-                .willReturn(null);
+                .willReturn(Optional.empty());
 
         //when
         ResultActions response=mockMvc.perform(MockMvcRequestBuilders.get("/api/students/{id}",studentId));
@@ -114,10 +114,10 @@ public class StudentControllerTesting {
         int studentId=1;
         Student student=Student.builder().name("arbaz").email("arbaz@gmail.com").build();
         BDDMockito.given(studentService.getStudentById(studentId))
-                .willReturn(student);
+                .willReturn(Optional.of(student));
 
-        BDDMockito.given(studentService.updateStudent(1,ArgumentMatchers.any(Student.class)))
-                .willAnswer((invocation) -> invocation.getArgument(0));
+        BDDMockito.given(studentService.updateStudent(studentId,ArgumentMatchers.any(Student.class)))
+                .willAnswer((invocation) -> invocation.getArgument(1));
 
         //when
         ResultActions response=mockMvc.perform(MockMvcRequestBuilders.put("/api/students/{id}",studentId)

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService{
@@ -24,8 +25,8 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public Student getStudentById(int id) {
-        return this.studentRepo.findById(id).orElseThrow(()->new ResourceNotFound("Not Found Student with id "+id));
+    public Optional<Student> getStudentById(int id) {
+        return this.studentRepo.findById(id);
     }
 
     @Override
